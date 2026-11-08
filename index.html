@@ -97,26 +97,53 @@ button{touch-action:manipulation}
   #pf{padding:7px 14px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+#play-btn-container {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+.play-btn {
+  display: inline-block;
+  padding: 10px 28px;
+  background: #f2c14e;
+  color: #3b0610;
+  font: 800 16px "Nunito", sans-serif;
+  text-decoration: none;
+  border-radius: 999px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s, background 0.2s;
+}
+.play-btn:hover {
+  transform: scale(1.08);
+  background: #fff;
+}
 </style>
 </head>
 <body>
-
+<div id="play-btn-container">
+  <a href="https://civic-empowering-indonesia.gamer.free" target="_blank" rel="noopener noreferrer" class="play-btn">Main</a>
+</div>
 <div class="wm" aria-hidden="true"></div>
-<span class="bg-sym" style="left:4vw;top:6vh">⭐</span><span class="bg-sym" style="right:5vw;top:10vh;animation-delay:-3s">⛓️</span>
-<span class="bg-sym" style="left:6vw;bottom:8vh;animation-delay:-6s">🌳</span><span class="bg-sym" style="right:6vw;bottom:7vh;animation-delay:-9s">🌾</span>
-
-<main id="stage">
-  <svg id="lines" aria-hidden="true"></svg>
-  <div class="ctr" id="ctr"><div class="logo" role="img" aria-label="Lambang perisai Pancasila"></div>
-    <h1>Pancasila dan Civic Empowerment</h1>
-    <p>Pancasila sebagai pedoman untuk membangun warga negara yang aktif, peduli, dan bertanggung jawab.</p></div>
+<p><span class="bg-sym" style="left: 4vw; top: 6vh;">⭐</span><span class="bg-sym" style="right: 5vw; top: 10vh; animation-delay: -3s;">⛓️</span> <span class="bg-sym" style="left: 6vw; bottom: 8vh; animation-delay: -6s;">🌳</span><span class="bg-sym" style="right: 6vw; bottom: 7vh; animation-delay: -9s;">🌾</span></p>
+<main id="stage"><svg id="lines" aria-hidden="true"></svg>
+<div class="ctr" id="ctr">
+<div class="logo" role="img" aria-label="Lambang perisai Pancasila"></div>
+<h1>Pancasila dan Civic Empowerment</h1>
+<p>Pancasila sebagai pedoman untuk membangun warga negara yang aktif, peduli, dan bertanggung jawab.</p>
+</div>
 </main>
-<div id="hint">Klik kotak untuk membuka isinya &nbsp;|&nbsp; tombol ← → untuk pindah &nbsp;|&nbsp; Esc untuk menutup</div>
-
-<div id="ov"><div id="pn" role="dialog" aria-modal="true">
-  <div id="ph"></div><div id="pb"></div>
-  <div id="pf"><button id="pv">← Sebelumnya</button><button id="nx">Berikutnya →</button></div></div></div>
-
+<div id="hint">Klik kotak untuk membuka isinya  |  tombol ← → untuk pindah  |  Esc untuk menutup</div>
+<div id="ov">
+<div id="pn" role="dialog" aria-modal="true">
+<div id="ph"></div>
+<div id="pb"></div>
+<div id="pf"><button id="pv">← Sebelumnya</button><button id="nx">Berikutnya →</button></div>
+</div>
+</div>
+<p>
 <script>
 const sl=(a)=>`<ul class="sl">${a.map((t,i)=>`<li><i style="background:${['#d62839','#e0a82e','#2e9d56','#3a9bf0','#8b5fd6'][i]}">${i+1}</i>${t}</li>`).join('')}</ul>`;
 const D=[
@@ -172,6 +199,49 @@ addEventListener('resize',layout);
 addEventListener('orientationchange',()=>setTimeout(layout,120));
 if(window.visualViewport) window.visualViewport.addEventListener('resize',layout);
 layout();
+/**
+     * Disable right-click of mouse, F12 key, and save key combinations on page
+     */
+    window.onload = function() {
+        document.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+        }, false);
+        document.addEventListener("keydown", function(e) {
+            //document.onkeydown = function(e) {
+            // "I" key
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                disabledEvent(e);
+            }
+            // "J" key
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+                disabledEvent(e);
+            }
+            // "S" key + macOS
+            if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+                disabledEvent(e);
+            }
+            // "U" key
+            if (e.ctrlKey && e.keyCode == 85) {
+                disabledEvent(e);
+            }
+            // "F12" key
+            if (event.keyCode == 123) {
+                disabledEvent(e);
+            }
+        }, false);
+
+        function disabledEvent(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            } else if (window.event) {
+                window.event.cancelBubble = true;
+            }
+            e.preventDefault();
+            return false;
+        }  
+    };
+    //End of disable script
 </script>
+</p>
 </body>
 </html>
